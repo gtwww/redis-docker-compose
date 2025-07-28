@@ -1,0 +1,15 @@
+services:
+  redis:
+    image: redis:8
+    container_name: redis-server
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-defaultpassword123}
+    volumes:
+      - /var/data/redis:/data
+      - ./config/redis.conf:/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    command: redis-server /etc/redis/redis.conf --requirepass $REDIS_PASSWORD
